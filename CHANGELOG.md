@@ -5,6 +5,13 @@
 
 * security: added rules.tsv ([e841126](https://github.com/djimenezc/devops-automation/commit/e841126a032f20268f71450dc16bcfeff3e86821))
 
+# [1.2.0](https://github.com/djimenezc/devops-automation/compare/v1.1.0...v1.2.0) (2022-07-25)
+
+
+### Features
+
+* security: added rules.tsv ([e841126](https://github.com/djimenezc/devops-automation/commit/e841126a032f20268f71450dc16bcfeff3e86821))
+
 # [1.2.0](https://github.com/djimenezc/devops-automation/compare/v1.1.0...v1.2.0) (2022-07-22)
 
 
