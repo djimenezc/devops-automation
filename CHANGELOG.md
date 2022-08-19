@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/djimenezc/devops-automation/compare/v1.2.0...v1.3.0) (2022-08-19)
+
+
+### Features
+
+* create image builder instance. Graviton instance type ([825454d](https://github.com/djimenezc/devops-automation/commit/825454d0a176d7c1f5ee34c068293c980a02d76e))
+
 # [1.2.0](https://github.com/djimenezc/devops-automation/compare/v1.1.0...v1.2.0) (2022-07-25)
 
 
