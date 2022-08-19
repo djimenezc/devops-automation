@@ -2,3 +2,5 @@
 /compose/elasticsearch/**/data/
 
 /jenkins/values.*.yml
+
+ansible/**/roles/*
