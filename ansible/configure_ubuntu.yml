@@ -4,17 +4,13 @@
 #  vars_files:
 #    - vars.yml
   tasks:
-    - name: Install dependencies ubuntu
-      apt:
-        name: '{{ item }}'
-        state: present
-        update_cache: yes
-      with_items: "{{ security_scanner_dependencies_ubuntu }}"
-      when: ansible_facts['distribution']=="Ubuntu"
-
-#    - name: "Include podman"
-#      include_role:
-#        name: "ansible-role-podman"
+#    - name: Install dependencies ubuntu
+#      apt:
+#        name: '{{ item }}'
+#        state: present
+#        update_cache: yes
+#      with_items: "{{ security_scanner_dependencies_ubuntu }}"
+#      when: ansible_facts['distribution']=="Ubuntu"
 
 - hosts: tag_Name_david_image_builder
   become: false
@@ -83,3 +79,7 @@
         name: docker
         state: started
         enabled: yes
+
+    - name: "Include podman"
+      include_role:
+        name: "ansible-role-podman"
