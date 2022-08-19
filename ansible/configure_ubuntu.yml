@@ -36,6 +36,11 @@
           repo: 'https://github.com/djimenezc/docker-multi-arch.git',
           version: 'main'
         }
+        - {
+          name: 'owasp-dependency-check-arm',
+          repo: 'https://github.com/djimenezc/owasp-dependency-check-arm.git',
+          version: 'main'
+        }
 
 - hosts: tag_Name_david_image_builder
   become: true

@@ -16,6 +16,9 @@ security_scanner_dependencies_ubuntu:
   - jq
   - telnet
   - tmux
+  - qemu
+  - binfmt-support
+  - qemu-user-static
 #  - podman
 
 #  - openssl-devel
