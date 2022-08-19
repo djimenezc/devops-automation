@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/djimenezc/devops-automation/compare/v1.3.0...v1.4.0) (2022-08-19)
+
+
+### Features
+
+* load qemu emulator ([8d4fe60](https://github.com/djimenezc/devops-automation/commit/8d4fe60894dd1e51d6e1387bc6d9818ec08311f4))
+
 # [1.3.0](https://github.com/djimenezc/devops-automation/compare/v1.2.0...v1.3.0) (2022-08-19)
 
 
