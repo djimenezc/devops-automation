@@ -3,6 +3,7 @@ plugin: amazon.aws.aws_ec2
 filters:
   tag:Name:
     - david_security_scanner
+    - david_image_builder
 regions:
   - eu-west-1
 keyed_groups:

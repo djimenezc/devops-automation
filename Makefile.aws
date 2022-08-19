@@ -25,7 +25,7 @@ aws-ec2-launch:
  	--security-group-ids $(AWS_SG) --subnet-id $(AWS_SUBNET_ID) --iam-instance-profile Name="$(ROLE_NAME)" \
 	--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$(INSTANCE_NAME)}]' \
 	--hibernation-options Configured=true \
-	--block-device-mapping "[ { \"DeviceName\": \"/dev/xvda\", \"Ebs\": { \"VolumeSize\": 60 } } ]"
+	--block-device-mapping "[ { \"DeviceName\": \"/dev/xvda\", \"Ebs\": {\"VolumeSize\": 60 , \"Encrypted\": true} } ]"
 
 aws-ec2-get-ids:
 	@echo $(INSTANCE_ID)
@@ -53,29 +53,6 @@ aws-ssh-connect:
 
 aws-ssh-connect-tmux:
 	ssh ec2-user@$(INSTANCE_ID) -i ~/.ssh/$(KEY_PAIR).pem -t "tmux new-session -s $(TMUX_SESSION_NAME) || tmux attach-session -t $(TMUX_SESSION_NAME)"
-
-#Terraform
-aws-terraform-create-s3-backend:
-	@if aws s3 ls "s3://$(TERRAFORM_BUCKET_NAME)" 2>&1 | grep -q 'NoSuchBucket'; then \
-  		echo "Creating bucket $(TERRAFORM_BUCKET_NAME)"; \
-		aws s3api create-bucket --bucket $(TERRAFORM_BUCKET_NAME) --region ${AWS_DEFAULT_REGION} \
-			--create-bucket-configuration LocationConstraint=${AWS_DEFAULT_REGION}; \
-		aws s3api put-bucket-encryption --bucket $(TERRAFORM_BUCKET_NAME) \
-			--server-side-encryption-configuration \
-			'{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}'; \
-		aws s3api put-public-access-block \
-            --bucket $(TERRAFORM_BUCKET_NAME) \
-            --public-access-block-configuration \
-            'BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true'; \
-		aws s3api get-public-access-block --bucket $(TERRAFORM_BUCKET_NAME); \
-	fi
-	-aws dynamodb create-table --table-name $(TERRAFORM_LOCK_TABLE_NAME) \
-	--attribute-definitions AttributeName=LockID,AttributeType=S --key-schema AttributeName=LockID,KeyType=HASH \
-	 --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
-
-aws-terraform-create-s3-backend-rollback:
-	aws s3api delete-bucket --bucket $(TERRAFORM_BUCKET_NAME)
-	aws dynamodb delete-table --table-name $(TERRAFORM_LOCK_TABLE_NAME)
 
 #IAM
 aws-iam-role-create:

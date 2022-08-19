@@ -1,0 +1,80 @@
+- hosts: tag_Name_david_image_builder
+  become: true
+  gather_facts: true
+#  vars_files:
+#    - vars.yml
+  tasks:
+    - name: Install dependencies ubuntu
+      apt:
+        name: '{{ item }}'
+        state: present
+        update_cache: yes
+      with_items: "{{ security_scanner_dependencies_ubuntu }}"
+      when: ansible_facts['distribution']=="Ubuntu"
+
+#    - name: "Include podman"
+#      include_role:
+#        name: "ansible-role-podman"
+
+- hosts: tag_Name_david_image_builder
+  become: false
+  become_user: ubuntu
+  gather_facts: false
+  tasks:
+    - name: Creates directory
+      file:
+        path: sources
+        state: directory
+    - name: Download github repos
+      git:
+        repo: '{{ item.repo }}'
+        dest: 'sources/{{ item.name }}'
+        version: '{{ item.version }}'
+      with_items:
+        - {
+          name: 'docker-multi-arch',
+          repo: 'https://github.com/djimenezc/docker-multi-arch.git',
+          version: 'main'
+        }
+
+- hosts: tag_Name_david_image_builder
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+        dest: /usr/bin/docker-compose
+        mode: 'u+x,g+x'
+
+    - name: Install compose-py
+      pip:
+        name: docker-compose
+        executable: pip3
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install docker pip
+      pip:
+        name: docker
+        executable: pip3
+
+    - name: Start service docker if not started
+      service:
+        name: docker
+        state: started
+        enabled: yes

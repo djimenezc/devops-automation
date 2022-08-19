@@ -1,2 +1,4 @@
 
-scripts-
+- src: https://github.com/alvistack/ansible-role-podman.git
+  version: 6.2.2
+  name: ansible-role-podman

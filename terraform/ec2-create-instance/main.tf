@@ -8,30 +8,117 @@ provider "aws" {
   }
 }
 
-resource "aws_instance" "clickhouse" {
-  key_name             = var.keypair_name
-  ami                  = var.ami_ids[each.value]
-  instance_type        = var.clickhouse_machine_sizes[each.value]
-  iam_instance_profile = data.aws_iam_instance_profile.clickhouse_profile.name
-  subnet_id            = element(keys(var.subnet_clickhouse), index(keys(var.clickhouse_replicas), each.key))
+data "aws_vpc" "main" {
+  tags = {
+    Name                     = var.vpc_name
+  }
+}
 
-#  user_data = filebase64("${path.module}/provision.sh")
+resource "aws_security_group" "instance_role" {
+  name_prefix = "${var.instance_name}_"
+  description = "${var.instance_name} role"
+  vpc_id      = data.aws_vpc.main.id
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.instance_name}.security_group"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+data "aws_ami_ids" "ubuntu_arm" {
+  owners = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-20220604"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["arm64"]
+  }
+}
+
+resource "aws_iam_instance_profile" "profile" {
+  name = aws_iam_role.role.name
+  role = aws_iam_role.role.name
+}
+
+data "aws_iam_policy_document" "role-assume-policy-document" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "role" {
+  name = var.role_name
+
+  assume_role_policy = data.aws_iam_policy_document.role-assume-policy-document.json
+}
+
+data "aws_iam_policy" "ssm_policy" {
+  name = "AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "test-attach" {
+  role       = aws_iam_role.role.name
+  policy_arn = data.aws_iam_policy.ssm_policy.arn
+}
+
+data "aws_subnet" "selected" {
+  filter {
+    name   = "tag:Name"
+    values = ["devVPC-private-1b"]
+  }
+}
+
+resource "aws_instance" "main" {
+  key_name             = var.keypair_name
+  ami                  = one(data.aws_ami_ids.ubuntu_arm.ids)
+  instance_type        = var.instance_type
+  iam_instance_profile = aws_iam_instance_profile.profile.name
+  subnet_id            = data.aws_subnet.selected.id
+  hibernation          = false
+
+  user_data = filebase64("provision.sh")
 
   tags = {
     Name = var.instance_name
-    Owner = "david"
+    Owner = var.owner
   }
 
   root_block_device {
-    volume_type = var.clickhouse_root_volume_type
-    volume_size = var.clickhouse_root_volume_size
+    volume_type = var.root_volume_type
+    volume_size = var.root_volume_size
     //reliability: for prod purposes
     delete_on_termination = var.delete_root_disk_on_termination
     encrypted             = true
   }
 
   vpc_security_group_ids = [
-    aws_security_group.clickhouse.id
+    aws_security_group.instance_role.id
   ]
 
 }

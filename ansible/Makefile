@@ -37,3 +37,6 @@ ansible-playbook-debug:
 
 ansible-playbook-security-scanner:
 	${MAKE} ansible-playbook ANSIBLE_PLAYBOOK_NAME=configure_security_scanner
+
+ansible-playbook-ubuntu:
+	${MAKE} ansible-playbook ANSIBLE_PLAYBOOK_NAME=configure_ubuntu
