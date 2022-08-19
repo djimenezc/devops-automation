@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/djimenezc/devops-automation/compare/v1.4.0...v1.4.1) (2022-08-19)
+
+
+### Bug Fixes
+
+* specify podman arch 2 ([5a6a126](https://github.com/djimenezc/devops-automation/commit/5a6a1260f0ef95fc4f48fc66515f1518d349d413))
+
 # [1.4.0](https://github.com/djimenezc/devops-automation/compare/v1.3.0...v1.4.0) (2022-08-19)
 
 
