@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/djimenezc/devops-automation/compare/v1.4.1...v1.4.2) (2022-08-22)
+
+
+### Bug Fixes
+
+* give ecr permission to the instance ([a600a54](https://github.com/djimenezc/devops-automation/commit/a600a54f172c734139691e3b00fb574899b5386a))
+
 ## [1.4.1](https://github.com/djimenezc/devops-automation/compare/v1.4.0...v1.4.1) (2022-08-19)
 
 
