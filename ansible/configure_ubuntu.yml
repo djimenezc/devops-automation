@@ -33,7 +33,7 @@
         - {
           name: 'owasp-dependency-check-arm',
           repo: 'https://github.com/djimenezc/owasp-dependency-check-arm.git',
-          version: 'main'
+          version: 'master'
         }
 
 - hosts: tag_Name_david_image_builder
