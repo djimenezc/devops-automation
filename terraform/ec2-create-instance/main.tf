@@ -72,6 +72,25 @@ data "aws_iam_policy_document" "role-assume-policy-document" {
   }
 }
 
+resource "aws_iam_policy" "image_builder_aws_cli" {
+  name        = "image_builder_aws_cli"
+  path        = "/"
+  description = "Policy to build images and manage ECR"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ecr:*"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
 resource "aws_iam_role" "role" {
   name = var.role_name
 
@@ -85,6 +104,11 @@ data "aws_iam_policy" "ssm_policy" {
 resource "aws_iam_role_policy_attachment" "test-attach" {
   role       = aws_iam_role.role.name
   policy_arn = data.aws_iam_policy.ssm_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "aws-cli" {
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.image_builder_aws_cli.arn
 }
 
 data "aws_subnet" "selected" {
