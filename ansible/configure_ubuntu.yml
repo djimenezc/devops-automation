@@ -38,7 +38,7 @@
 
 - hosts: tag_Name_david_image_builder
   become: true
-  gather_facts: false
+  gather_facts: true
   vars_files:
     - ./inventory/group_vars/ubuntu.yml
   roles:

@@ -21,3 +21,11 @@
 - name: Install podman 4.2.0
   apt: deb="/home/{{ ansible_env.USER }}/Downloads/{{ podman_package_name }}.deb"
   when: my_package_check_deb.rc == 1
+
+
+- name: Install buildah
+  apt:
+    name: 'buildah'
+    state: present
+    update_cache: yes
+
