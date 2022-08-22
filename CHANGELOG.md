@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/djimenezc/devops-automation/compare/v1.4.4...v1.4.5) (2022-08-22)
+
+
+### Bug Fixes
+
+* change owasp repo branch ([b69e5fa](https://github.com/djimenezc/devops-automation/commit/b69e5fae5dcdc3766beeda9d6ec6966fb67ec748))
+
 ## [1.4.4](https://github.com/djimenezc/devops-automation/compare/v1.4.3...v1.4.4) (2022-08-22)
 
 
