@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/djimenezc/devops-automation/compare/v1.4.3...v1.4.4) (2022-08-22)
+
+
+### Bug Fixes
+
+* install buildah ([d96f50a](https://github.com/djimenezc/devops-automation/commit/d96f50a67007ece79d4a9667fa7c11da2c9ba00b))
+
 ## [1.4.3](https://github.com/djimenezc/devops-automation/compare/v1.4.2...v1.4.3) (2022-08-22)
 
 
