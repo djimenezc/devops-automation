@@ -1,16 +1,14 @@
 - hosts: tag_Name_david_image_builder
   become: true
   gather_facts: true
-#  vars_files:
-#    - vars.yml
   tasks:
-#    - name: Install dependencies ubuntu
-#      apt:
-#        name: '{{ item }}'
-#        state: present
-#        update_cache: yes
-#      with_items: "{{ security_scanner_dependencies_ubuntu }}"
-#      when: ansible_facts['distribution']=="Ubuntu"
+    - name: Install dependencies ubuntu
+      apt:
+        name: '{{ item }}'
+        state: present
+        update_cache: yes
+      with_items: "{{ security_scanner_dependencies_ubuntu }}"
+      when: ansible_facts['distribution']=="Ubuntu"
 
 - hosts: tag_Name_david_image_builder
   become: false
@@ -41,6 +39,10 @@
 - hosts: tag_Name_david_image_builder
   become: true
   gather_facts: false
+  vars_files:
+    - ./inventory/group_vars/ubuntu.yml
+  roles:
+    - ansible-role-podman
   tasks:
     - name: Install docker-compose
       get_url:
@@ -79,7 +81,3 @@
         name: docker
         state: started
         enabled: yes
-
-    - name: "Include podman"
-      include_role:
-        name: "ansible-role-podman"
