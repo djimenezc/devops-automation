@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/djimenezc/devops-automation/compare/v1.4.2...v1.4.3) (2022-08-22)
+
+
+### Bug Fixes
+
+* create a role for installing podman 4.2.0 in ubuntu ([152b5f2](https://github.com/djimenezc/devops-automation/commit/152b5f2e0cd1639c8bc5c0bbfbd3b66889344f4b)), closes [/github.com/containers/podman/issues/14065#issuecomment-1221549603](https://github.com//github.com/containers/podman/issues/14065/issues/issuecomment-1221549603)
+
 ## [1.4.2](https://github.com/djimenezc/devops-automation/compare/v1.4.1...v1.4.2) (2022-08-22)
 
 
