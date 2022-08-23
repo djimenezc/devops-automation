@@ -20,6 +20,7 @@ security_scanner_dependencies_ubuntu:
   - binfmt-support
   - qemu-user-static
   - qemu-system-arm
+  - golang
 
 security_scanner_dependencies_amazon_linux_2:
   - git

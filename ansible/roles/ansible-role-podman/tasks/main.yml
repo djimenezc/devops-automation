@@ -19,13 +19,41 @@
   when: my_package_check_deb.rc == 1
 
 - name: Install podman 4.2.0
+  become: true
   apt: deb="/home/{{ ansible_env.USER }}/Downloads/{{ podman_package_name }}.deb"
   when: my_package_check_deb.rc == 1
 
-
 - name: Install buildah
+  become: true
   apt:
     name: 'buildah'
     state: present
-    update_cache: yes
+#    update_cache: yes
 
+- name: Download github repos
+  git:
+    repo: '{{ item.repo }}'
+    dest: 'sources/{{ item.name }}'
+    version: '{{ item.version }}'
+  with_items:
+    - {
+      name: 'gvisor-tap-vsock',
+      repo: 'https://github.com/containers/gvisor-tap-vsock.git',
+      version: 'main'
+    }
+
+- name: Build the gvisor-tap-vsock
+  make:
+    chdir: /home/ubuntu/sources/gvisor-tap-vsock
+
+- name: Creates directory
+  file:
+    path: "/usr/local/libexec/podman"
+    state: directory
+
+- name: Copy gvproxy
+  become: yes
+  copy:
+    src: /home/ubuntu/sources/gvisor-tap-vsock/bin/gvproxy
+    dest: /usr/local/libexec/podman
+    remote_src: yes

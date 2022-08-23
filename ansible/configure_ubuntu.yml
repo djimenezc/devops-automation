@@ -9,6 +9,9 @@
         update_cache: yes
       with_items: "{{ security_scanner_dependencies_ubuntu }}"
       when: ansible_facts['distribution']=="Ubuntu"
+    - name: Set a hostname
+      ansible.builtin.hostname:
+        name: "{{ ansible_host }}"
 
 - hosts: tag_Name_david_image_builder
   become: false
@@ -41,8 +44,6 @@
   gather_facts: true
   vars_files:
     - ./inventory/group_vars/ubuntu.yml
-  roles:
-    - ansible-role-podman
   tasks:
     - name: Install docker-compose
       get_url:
@@ -81,3 +82,11 @@
         name: docker
         state: started
         enabled: yes
+
+- hosts: tag_Name_david_image_builder
+  become: false
+  gather_facts: true
+  vars_files:
+    - ./inventory/group_vars/ubuntu.yml
+  roles:
+    - ansible-role-podman
