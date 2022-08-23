@@ -1,3 +1,10 @@
+## [1.4.7](https://github.com/djimenezc/devops-automation/compare/v1.4.6...v1.4.7) (2022-08-23)
+
+
+### Bug Fixes
+
+* restructure podman role ([86d217e](https://github.com/djimenezc/devops-automation/commit/86d217e9639bd9e68afe89cfa167d0aab23e7041))
+
 ## [1.4.6](https://github.com/djimenezc/devops-automation/compare/v1.4.5...v1.4.6) (2022-08-23)
 
 
