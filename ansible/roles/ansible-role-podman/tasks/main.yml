@@ -28,7 +28,12 @@
   apt:
     name: 'buildah'
     state: present
-#    update_cache: yes
+
+- name: Install skopeo
+  become: true
+  apt:
+    name: 'skopeo'
+    state: present
 
 - name: Download github repos
   git:
