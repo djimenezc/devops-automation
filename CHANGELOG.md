@@ -1,3 +1,10 @@
+## [1.4.8](https://github.com/djimenezc/devops-automation/compare/v1.4.7...v1.4.8) (2022-08-23)
+
+
+### Bug Fixes
+
+* multiarch building working ([0d89b23](https://github.com/djimenezc/devops-automation/commit/0d89b2388465ab0092283afd9e4e9b75c5a88fc0))
+
 ## [1.4.7](https://github.com/djimenezc/devops-automation/compare/v1.4.6...v1.4.7) (2022-08-23)
 
 
