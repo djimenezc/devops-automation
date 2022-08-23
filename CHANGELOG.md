@@ -1,3 +1,10 @@
+## [1.4.6](https://github.com/djimenezc/devops-automation/compare/v1.4.5...v1.4.6) (2022-08-23)
+
+
+### Bug Fixes
+
+* added infracost targets ([c457643](https://github.com/djimenezc/devops-automation/commit/c457643fbac8e53369447ea4f2c3333b7c5576b8))
+
 ## [1.4.5](https://github.com/djimenezc/devops-automation/compare/v1.4.4...v1.4.5) (2022-08-22)
 
 
