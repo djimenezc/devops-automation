@@ -77,3 +77,12 @@ terraform-format:
 
 terraform-console:
 	@terraform console
+
+infracost-current:
+	infracost breakdown --path .
+
+infracost-baseline:
+	infracost breakdown --path . --format json --out-file infracost-base.json
+
+infracost-diff:
+	infracost diff --path . --compare-to infracost-base.json

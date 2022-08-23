@@ -19,12 +19,7 @@ security_scanner_dependencies_ubuntu:
   - qemu
   - binfmt-support
   - qemu-user-static
-#  - podman
-
-#  - openssl-devel
-#  - perl
-#  - perl-Net-SSLeay
-#  - perl-Crypt-SSLeay
+  - qemu-system-arm
 
 security_scanner_dependencies_amazon_linux_2:
   - git

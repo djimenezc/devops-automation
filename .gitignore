@@ -4,3 +4,4 @@
 /jenkins/values.*.yml
 
 ansible/**/roles/*
+/terraform/**/.infracost/
