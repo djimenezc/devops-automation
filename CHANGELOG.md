@@ -1,3 +1,10 @@
+## [1.4.9](https://github.com/djimenezc/devops-automation/compare/v1.4.8...v1.4.9) (2022-08-24)
+
+
+### Bug Fixes
+
+* /usr/local/libexec/podman folder should be created as root ([672a865](https://github.com/djimenezc/devops-automation/commit/672a865460847d5c4d028e8eaf9d6b557d475271))
+
 ## [1.4.8](https://github.com/djimenezc/devops-automation/compare/v1.4.7...v1.4.8) (2022-08-23)
 
 
