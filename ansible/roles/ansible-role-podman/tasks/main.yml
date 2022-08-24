@@ -52,6 +52,7 @@
     chdir: /home/ubuntu/sources/gvisor-tap-vsock
 
 - name: Creates directory
+  become: true
   file:
     path: "/usr/local/libexec/podman"
     state: directory
