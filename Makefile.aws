@@ -81,3 +81,34 @@ aws-iam-role-show-attached-policy:
 
 aws-iam-ec2-attach-role:
 	aws ec2 associate-iam-instance-profile --instance-id $(INSTANCE_ID) --iam-instance-profile Name=
+
+
+#---------EKS-----
+
+EKS_CLUSTER_NAME ?= kay-test
+EKS_CLUSTER_NODE_GROUP_NAME ?= node-group-arm64
+EKS_CLUSTER_SUBNETS ?= subnet-067387b658830caa3
+EKS_CLUSTER_NODE_ROLE ?= arn:aws:iam::155136788633:role/kay-test-k8s-NodeInstanceRole-1BCTZ79K7XS16
+EKS_CLUSTER_INSTANCE_TYPE ?= t4g.medium
+EKS_CLUSTER_AMI_TYPE ?= AL2_ARM_64
+EKS_CLUSTER_ARCH ?= arm64
+EKS_CLUSTER_LABELS ?= ARCH=$(EKS_CLUSTER_ARCH)
+EKS_CLUSTER_TAGS ?= Name=$(EKS_CLUSTER_NAME),Arch=$(EKS_CLUSTER_ARCH)
+EKS_CLUSTER_MIN_SIZE ?= 1
+EKS_CLUSTER_MAX_SIZE ?= 10
+EKS_CLUSTER_DESIRED_SIZE ?= 1
+
+aws-eks-node-group-create:
+	aws eks create-nodegroup --cluster-name $(EKS_CLUSTER_NAME) \
+		--nodegroup-name $(EKS_CLUSTER_NODE_GROUP_NAME) \
+		--subnets $(EKS_CLUSTER_SUBNETS) \
+		--node-role $(EKS_CLUSTER_NODE_ROLE) \
+		--instance-types $(EKS_CLUSTER_INSTANCE_TYPE) \
+		--ami-type $(EKS_CLUSTER_AMI_TYPE) \
+		--labels $(EKS_CLUSTER_LABELS) \
+		--tags $(EKS_CLUSTER_TAGS) \
+		--scaling-config minSize=$(EKS_CLUSTER_MIN_SIZE),maxSize=$(EKS_CLUSTER_MAX_SIZE),desiredSize=$(EKS_CLUSTER_DESIRED_SIZE)
+
+aws-eks-node-group-delete:
+	aws eks delete-nodegroup --cluster-name $(EKS_CLUSTER_NAME) \
+  	--nodegroup-name $(EKS_CLUSTER_NODE_GROUP_NAME)
