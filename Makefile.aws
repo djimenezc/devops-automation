@@ -97,6 +97,7 @@ EKS_CLUSTER_TAGS ?= Name=$(EKS_CLUSTER_NAME),Arch=$(EKS_CLUSTER_ARCH)
 EKS_CLUSTER_MIN_SIZE ?= 1
 EKS_CLUSTER_MAX_SIZE ?= 10
 EKS_CLUSTER_DESIRED_SIZE ?= 1
+EKS_CLUSTER_TAINTS ?= key=ARCH,value=ARM64,effect=NO_SCHEDULE
 
 aws-eks-node-group-create:
 	aws eks create-nodegroup --cluster-name $(EKS_CLUSTER_NAME) \
@@ -107,6 +108,7 @@ aws-eks-node-group-create:
 		--ami-type $(EKS_CLUSTER_AMI_TYPE) \
 		--labels $(EKS_CLUSTER_LABELS) \
 		--tags $(EKS_CLUSTER_TAGS) \
+		--taints $(EKS_CLUSTER_TAINTS) \
 		--scaling-config minSize=$(EKS_CLUSTER_MIN_SIZE),maxSize=$(EKS_CLUSTER_MAX_SIZE),desiredSize=$(EKS_CLUSTER_DESIRED_SIZE)
 
 aws-eks-node-group-delete:
