@@ -98,13 +98,15 @@ EKS_CLUSTER_MIN_SIZE ?= 1
 EKS_CLUSTER_MAX_SIZE ?= 10
 EKS_CLUSTER_DESIRED_SIZE ?= 1
 EKS_CLUSTER_TAINTS ?= key=ARCH,value=ARM64,effect=NO_SCHEDULE
+EKS_CLUSTER_LAUNCH_TEMPLATE ?= kay-test-cluster-managednodegroup-arm64
+EKS_CLUSTER_LAUNCH_TEMPLATE_VERSION ?= 1
 
 aws-eks-node-group-create:
 	aws eks create-nodegroup --cluster-name $(EKS_CLUSTER_NAME) \
 		--nodegroup-name $(EKS_CLUSTER_NODE_GROUP_NAME) \
 		--subnets $(EKS_CLUSTER_SUBNETS) \
 		--node-role $(EKS_CLUSTER_NODE_ROLE) \
-		--instance-types $(EKS_CLUSTER_INSTANCE_TYPE) \
+		--launch-template name=$(EKS_CLUSTER_LAUNCH_TEMPLATE),version=$(EKS_CLUSTER_LAUNCH_TEMPLATE_VERSION) \
 		--ami-type $(EKS_CLUSTER_AMI_TYPE) \
 		--labels $(EKS_CLUSTER_LABELS) \
 		--tags $(EKS_CLUSTER_TAGS) \
@@ -114,3 +116,19 @@ aws-eks-node-group-create:
 aws-eks-node-group-delete:
 	aws eks delete-nodegroup --cluster-name $(EKS_CLUSTER_NAME) \
   	--nodegroup-name $(EKS_CLUSTER_NODE_GROUP_NAME)
+
+aws-eks-launch-template-create:
+	aws ec2 create-launch-template \
+	--launch-template-name $(EKS_CLUSTER_LAUNCH_TEMPLATE) \
+	--version-description "launch templated for creating and managing managed node groups for ARM64" \
+	--launch-template-data '{"InstanceType": "$(EKS_CLUSTER_INSTANCE_TYPE)",\
+	"TagSpecifications":[{"ResourceType":"instance","Tags":[{"Key":"purpose","Value":"eks-nodes"},\
+	 {"Key":"Name","Value":"kay-test-$(EKS_CLUSTER_NODE_GROUP_NAME)"}]}] }'
+
+aws-eks-launch-template-delete:
+	aws ec2 delete-launch-template \
+	--launch-template-name $(EKS_CLUSTER_LAUNCH_TEMPLATE)
+
+aws-eks-launch-template-describe:
+	aws ec2 describe-launch-templates --filters 'Name=launch-template-name,Values=$(EKS_CLUSTER_LAUNCH_TEMPLATE)'
+
