@@ -23,3 +23,4 @@ kind-cluster-get-info:
 -include ./scripts/Makefile
 -include ./ansible/Makefile
 -include ./terraform/Makefile
+-include ./k8s/Makefile
