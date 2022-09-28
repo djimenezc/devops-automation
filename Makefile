@@ -1,15 +1,32 @@
 CLUSTER_NAME ?= dev-cluster
 export INGRESS_HOST=127.0.0.1
 
+KIND_CONFIG_FILE ?= kind/kind-config-multi-cluster.yml
+
 #k8s
 kind-cluster-create:
-	kind create cluster --name $(CLUSTER_NAME) --config kind/kind-config.yml
+	kind create cluster --name $(CLUSTER_NAME) --config $(KIND_CONFIG_FILE)
+
+kind-cluster-create-podman:
+	KIND_EXPERIMENTAL_PROVIDER=podman kind create cluster --name $(CLUSTER_NAME) --config $(KIND_CONFIG_FILE)
+
+kind-cluster-destroy-podman:
+	KIND_EXPERIMENTAL_PROVIDER=podman kind delete cluster --name $(CLUSTER_NAME)
 
 kind-cluster-destroy:
 	kind delete cluster --name $(CLUSTER_NAME)
 
 kind-cluster-get-info:
 	kubectl cluster-info --context kind-dev-cluster
+
+kind-deploy-cluster:
+	${MAKE} kind-cluster-create
+	${MAKE} kind-cluster-get-info
+	kubectl label nodes dev-cluster-control-plane nodePool=cluster
+	#${MAKE} ingress-kind-nginx-install
+	${MAKE} argocd-install
+	${MAKE} argocd-get-admin-password
+	${MAKE} argocd-make-public
 
 -include ./Makefile.argocd
 -include ./Makefile.ingress
@@ -24,3 +41,4 @@ kind-cluster-get-info:
 -include ./ansible/Makefile
 -include ./terraform/Makefile
 -include ./k8s/Makefile
+-include ./Makefile.podman

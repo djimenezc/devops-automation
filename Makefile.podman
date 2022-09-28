@@ -1,0 +1,19 @@
+PODMAN_CPUS ?= 4
+PODMAN_MEMORY ?= 4048
+PODMAN_MACHINE_NAME ?= dev-cluster
+
+podman-init:
+	-podman machine init -v ${HOME}:${HOME} --cpus $(PODMAN_CPUS) --memory $(PODMAN_MEMORY) --rootful $(PODMAN_MACHINE_NAME)
+	podman machine start $(PODMAN_MACHINE_NAME)
+	podman machine ls
+
+podman-destroy:
+	podman system connection default $(PODMAN_MACHINE_NAME)
+	podman machine stop $(PODMAN_MACHINE_NAME)
+	podman machine rm $(PODMAN_MACHINE_NAME)
+
+podman-run-mysql:
+	@if ! podman inspect mysql > /dev/null ;  then \
+        echo "podman run mysql-server"; \
+        podman run --detach --restart always --platform linux/amd64 --network=capi -p 3306:3306 --name mysql --env MYSQL_ALLOW_EMPTY_PASSWORD=true --volume resources:/etc/mysql/conf.d mysql:5.7; \
+    fi
