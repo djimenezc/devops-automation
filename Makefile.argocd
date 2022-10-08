@@ -5,7 +5,7 @@ ARGO_DEMO_APPS= guestbook ksonnet-guestbook helm-guestbook jsonnet-guestbook jso
 
 #https://argo-cd.readthedocs.io/en/stable/getting_started/
 argocd-install:
-	kubectl create namespace argocd
+	-kubectl create namespace argocd
 	kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 argocd-delete:
@@ -30,6 +30,16 @@ argocd-apps-create-namespace:
 argocd-ingress-apply:
 	kubectl apply -f ./ingress/argocd-nginx-ingress.yml
 
+#https://argo-cd.readthedocs.io/en/stable/getting_started/
+argocd-login:
+	argocd login argocd.127.0.0.1.nip.io
+
+argocd-install-tools:
+	brew install argocd
+	brew install argocd-autopilot
+
+argocd-add-cluster:
+	argocd cluster add $(shell kubectl config current-context) --insecure -y
 
 argocd-app-deploy: argocd-apps-create-namespace
 	@echo deploying appName: $(ARGO_DEMO_APP_NAME)
