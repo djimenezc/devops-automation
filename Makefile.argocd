@@ -3,6 +3,14 @@
 ARGO_DEMO_APP_NAME ?= guestbook
 ARGO_DEMO_APPS= guestbook ksonnet-guestbook helm-guestbook jsonnet-guestbook jsonnet-guestbook-tla kustomize-guestbook ksane pre-post-sync sync-waves helm-dependency sock-shop plugins blue-green apps
 
+APP_NAME ?= cronjob-operator
+REPO_URL ?=
+PATH ?=
+DEST_NAMESPACE ?= argocd
+DEST_SERVER ?= https://kubernetes.default.svc
+APP_BRANCH ?= main
+APP_PROJECT ?=
+
 #https://argo-cd.readthedocs.io/en/stable/getting_started/
 argocd-install:
 	-kubectl create namespace argocd
@@ -41,9 +49,22 @@ argocd-install-tools:
 argocd-add-cluster:
 	argocd cluster add $(shell kubectl config current-context) --insecure -y
 
-argocd-app-deploy: argocd-apps-create-namespace
-	@echo deploying appName: $(ARGO_DEMO_APP_NAME)
-	argocd app create $(ARGO_DEMO_APP_NAME) --repo https://github.com/djimenezc/argocd-example-apps.git --path $(ARGO_DEMO_APP_NAME) --dest-server https://kubernetes.default.svc --dest-namespace argocd-apps
+argocd-app-deploy:
+	@echo deploying appName: $(APP_NAME)
+	argocd app create $(APP_NAME) \
+  	--repo $(REPO_URL) \
+  	--path $(PATH) \
+  	--dest-namespace $(DEST_NAMESPACE) \
+  	--dest-server $(DEST_SERVER) \
+  	--auto-prune --self-heal --sync-policy automated \
+  	--sync-option CreateNamespace=true \
+  	--sync-option ServerSideApply=true \
+  	--sync-option PruneLast=true \
+  	--sync-option PrunePropagationPolicy=foreground \
+  	--sync-option Validate=true \
+  	--sync-option RespectIgnoreDifferences=true \
+  	--revision $(APP_BRANCH) \
+  	--upsert
 
 argocd-app-get:
 	@echo Getting appName: $(ARGO_DEMO_APP_NAME)
@@ -56,3 +77,8 @@ argocd-app-sync:
 argocd-app-delete:
 	@echo Deleting appName: $(ARGO_DEMO_APP_NAME)
 	argocd app delete ${ARGO_DEMO_APP_NAME}
+
+sealed-secrets-controller-install:
+	helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+	helm repo update
+	helm install sealed-secrets-controller sealed-secrets/sealed-secrets

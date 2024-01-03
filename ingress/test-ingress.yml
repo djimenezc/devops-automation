@@ -4,8 +4,9 @@ metadata:
   name: test-ingress
   namespace: argocd-test
   annotations:
-    kubernetes.io/ingress.class: nginx
+#    kubernetes.io/ingress.class: systeminternalingress
 spec:
+  ingressClassName: systeminternalingress
   rules:
     - host: echo2.argocd-test.vqpn.net
       http:
