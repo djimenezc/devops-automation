@@ -40,7 +40,10 @@ argocd-ingress-apply:
 
 #https://argo-cd.readthedocs.io/en/stable/getting_started/
 argocd-login:
-	argocd login argocd.127.0.0.1.nip.io
+	argocd login --skip-test-tls --grpc-web --username admin \
+	--insecure \
+	--password $(shell kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d;echo) \
+	 localhost:8085
 
 argocd-install-tools:
 	brew install argocd
