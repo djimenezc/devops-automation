@@ -19,10 +19,18 @@ grafana-chart-loki-install:
 		loki grafana/loki-stack \
 		--namespace $(GRAFANA_NAMESPACE) \
 		--create-namespace \
+		--set "ingress.hosts[0]=loki.${INGRESS_HOST}.nip.io" \
 		--wait
+
+grafana-chart-loki-delete:
+	helm uninstall loki \
+	--namespace $(GRAFANA_NAMESPACE)
 
 grafana-get-admin-password:
 	kubectl --namespace $(GRAFANA_NAMESPACE) \
         get secret grafana \
         --output jsonpath="{.data.admin-password}" \
         | base64 --decode ; echo
+
+grafana-loki-port-forwarding:
+	kubectl port-forward svc/loki -n $(GRAFANA_NAMESPACE) 3100:3100
