@@ -17,7 +17,7 @@ spec:
   project: default
   source:
     chart: simple-app-go
-    repoURL: ghcr.io/djimenezc/helm/simple-go-app
+    repoURL: ghcr.io/djimenezc/helm
     targetRevision: ^0.1.0
     helm:
       releaseName: simple-app-go
