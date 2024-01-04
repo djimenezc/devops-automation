@@ -6,8 +6,8 @@ metadata:
 spec:
   destination:
     namespace: qa
-  source:
-    targetRevision: 0.1.0
+#  source:
+#    targetRevision: 0.1.0
 #    helm:
 #      valueFiles:
 #        - simple-app-go-values.yaml
