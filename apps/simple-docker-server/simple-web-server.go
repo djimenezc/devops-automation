@@ -47,10 +47,12 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+var appVersion string
+
 func main() {
 
 	clh := configurationListHandler{}
-	clh.version = "3.0"
+	clh.version = appVersion
 	clh.environment = os.Getenv("ENV")
 	clh.environment_type = os.Getenv("ENV_TYPE")
 	clh.region = os.Getenv("REGION")
@@ -64,7 +66,7 @@ func main() {
 	clh.sorting = os.Getenv("SORTING")
 	clh.number_of_buckets = os.Getenv("N_BUCKETS")
 
-	fmt.Println("Simple web server is starting on port 8080...")
+	fmt.Printf("Simple web server %v is starting on port 8080... \n", clh.version)
 	http.Handle("/", &clh)
 	http.HandleFunc("/health", healthHandler)
 	err := http.ListenAndServe(":8080", nil)

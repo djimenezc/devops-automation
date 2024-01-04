@@ -5,3 +5,4 @@
 
 ansible/**/roles/*
 /terraform/**/.infracost/
+.envrc
