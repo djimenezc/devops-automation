@@ -1,13 +1,2 @@
-apiVersion: builtin
-kind: HelmChartInflationGenerator
-metadata:
-  name: just-for-kustomize-matching
-releaseName: helm-release-name
-name: chart-name
-version: chart-version
-repo: repo-url
-valuesInline: {
-  image: {
-    tag: "1.0"
-  }
-}
+image:
+  tag: "1.0"

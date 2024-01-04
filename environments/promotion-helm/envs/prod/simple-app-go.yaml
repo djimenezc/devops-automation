@@ -6,10 +6,15 @@ metadata:
 spec:
   destination:
     namespace: prod
-  source:
-    targetRevision: 0.1.0
-#    helm:
-#      valueFiles:
-#        - simple-app-go-values.yaml
-#        - simple-app-go-version.yaml
+  sources:
+    - chart: helm-simple-go-app
+      targetRevision: 0.1.0
+      helm:
+        releaseName: helm-simple-go-app
+        valueFiles:
+          - $values/environments/promotion-helm/envs/prod/simple-app-go-values.yaml
+          - $values/environments/promotion-helm/envs/prod/simple-app-go-version.yaml
 
+    - repoURL: 'https://github.com/djimenezc/devops-automation'
+      ref: values
+      targetRevision: feature/environment-promotion
