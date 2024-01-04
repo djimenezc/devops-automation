@@ -15,4 +15,4 @@ envs-port-forwarding:
 	kubectl port-forward svc/qa-simple-service -n qa 31000:8080 &
 
 kill-port-forwarding:
-	kill $(ps aux | grep "kubectl port-forward*" | awk '{print $2}')
+	./kill-port-forwarding-process.sh
