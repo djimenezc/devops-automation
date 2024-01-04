@@ -22,3 +22,5 @@ spec:
     helm:
       releaseName: simple-app-go
       passCredentials: true
+      valueFiles:
+        - simple-app-go-version.yaml
