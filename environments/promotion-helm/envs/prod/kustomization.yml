@@ -13,5 +13,5 @@ resources:
 
 patches:
 - path: simple-app-go.yaml
-- path: simple-app-go-version.yaml
-- path: simple-app-go-settings.yaml
+#- path: simple-app-go-version.yaml
+#- path: simple-app-go-settings.yaml

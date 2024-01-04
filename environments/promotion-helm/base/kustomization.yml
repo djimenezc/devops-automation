@@ -3,5 +3,5 @@ kind: Kustomization
 
 resources:
 - simple-app-go.yaml
-- simple-app-go-version.yaml
-- simple-app-go-settings.yaml
+#- simple-app-go-version.yaml
+#- simple-app-go-settings.yaml
