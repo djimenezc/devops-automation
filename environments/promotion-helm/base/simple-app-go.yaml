@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace:
+    namespace: default
     name: in-cluster
   syncPolicy:
     automated:
