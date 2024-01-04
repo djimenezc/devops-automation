@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-app-go
+  namespace: argocd
+spec:
+  destination:
+    namespace: prod
+  source:
+    targetRevision: 0.1.0
+#    helm:
+#      valueFiles:
+#        - simple-app-go-values.yaml
+#        - simple-app-go-version.yaml
+
