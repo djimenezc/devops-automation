@@ -61,5 +61,5 @@ jobs:
           build-args: |
             APP_VERSION= ${{ inputs.docker_tag }}
           push: true
-          tags: ghcr.io/${{ steps.imagename.outputs.lowercase }}:${{ inputs.docker_tag }}
+          tags: ghcr.io/${{ steps.imagename.outputs.lowercase }}/simple-app-go:${{ inputs.docker_tag }}
 
