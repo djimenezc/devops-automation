@@ -58,6 +58,8 @@ jobs:
         with:
           context: ./apps/simple-docker-server
           file: ./apps/simple-docker-server/Dockerfile
+          build-args: |
+            APP_VERSION= ${{ inputs.docker_tag }}
           push: true
           tags: ghcr.io/${{ steps.imagename.outputs.lowercase }}:${{ inputs.docker_tag }}
 
