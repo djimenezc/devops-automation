@@ -8,8 +8,8 @@ spec:
     namespace: prod
   source:
     targetRevision: 0.1.0
-    helm:
-      valueFiles:
-        - simple-app-go-values.yaml
-        - simple-app-go-version.yaml
+#    helm:
+#      valueFiles:
+#        - simple-app-go-values.yaml
+#        - simple-app-go-version.yaml
 
