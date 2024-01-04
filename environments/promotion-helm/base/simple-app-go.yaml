@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-app-go
+  namespace: argocd
+spec:
+  destination:
+    namespace:
+    name: in-cluster
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  project: default
+  source:
+    chart: simple-app-go
+    repoURL: ghcr.io/djimenezc/helm/simple-go-app
+    targetRevision: ^0.1.0
+    helm:
+      releaseName: simple-app-go
+

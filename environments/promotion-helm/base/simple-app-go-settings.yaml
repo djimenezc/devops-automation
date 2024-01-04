@@ -1,0 +1,12 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: settings
+releaseName: helm-release-name
+name: chart-name
+version: chart-version
+repo: repo-url
+valuesInline: {
+  replicaCount: 1
+}
+
