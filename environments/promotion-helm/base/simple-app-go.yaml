@@ -16,8 +16,8 @@ spec:
       - CreateNamespace=true
   project: default
   source:
-    chart: simple-app-go
-    repoURL: ghcr.io/djimenezc/helm
+    chart: helm-simple-go-app
+    repoURL: ghcr.io/djimenezc
     targetRevision: ^0.1.0
     helm:
       releaseName: simple-app-go

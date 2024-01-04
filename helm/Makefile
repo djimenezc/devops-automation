@@ -1,8 +1,8 @@
 
-CHART_NAME ?= simple-go-app
+CHART_NAME ?= helm-simple-go-app
 USERNAME ?= djimenezc
 REGISTRY ?= ghcr.io/${USERNAME}
-CHART_VERSION ?=$(shell helm show chart simple-go-app | awk -F ':' '/version: / {print $$2}' | xargs)
+CHART_VERSION ?=$(shell helm show chart $(CHART_NAME) | awk -F ':' '/version: / {print $$2}' | xargs)
 
 .PHONY: helm-version
 helm-version:
@@ -19,4 +19,4 @@ helm-login:
 .PHONY: helm-push
 helm-push:
 	@echo Publishing version $(CHART_VERSION) of $(CHART_NAME) chart
-	helm push ./$(CHART_NAME)-$(CHART_VERSION).tgz oci://$(REGISTRY)/helm
+	helm push ./$(CHART_NAME)-$(CHART_VERSION).tgz oci://$(REGISTRY)

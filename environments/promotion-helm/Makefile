@@ -23,3 +23,6 @@ envs-port-forwarding:
 
 kustomize:
 	kustomize build envs/prod
+
+argocd-add-repo:
+	argocd repo add ghcr.io/djimenezc/helm --type helm --name stable --enable-oci --username djimenezc --password ${GITHUB_TOKEN}
