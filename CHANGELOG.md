@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/djimenezc/devops-automation/compare/v1.4.9...v1.5.0) (2024-01-04)
+
+
+### Features
+
+* **environment promotion:** testing gitops ([#81](https://github.com/djimenezc/devops-automation/issues/81)) ([22e76b1](https://github.com/djimenezc/devops-automation/commit/22e76b1dc04d40d22a33b71662abb0a28830ca0f))
+
 ## [1.4.9](https://github.com/djimenezc/devops-automation/compare/v1.4.8...v1.4.9) (2022-08-24)
 
 
