@@ -38,6 +38,11 @@
           repo: 'https://github.com/djimenezc/owasp-dependency-check-arm.git',
           version: 'master'
         }
+        - {
+          name: 'podman-docker',
+          repo: 'https://github.com/djimenezc/podman-docker.git',
+          version: 'main'
+        }
 
 - hosts: tag_Name_david_image_builder
   become: true

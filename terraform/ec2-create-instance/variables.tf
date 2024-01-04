@@ -39,7 +39,7 @@ variable "root_volume_type" {
 
 variable "root_volume_size" {
   type    = number
-  default = 10
+  default = 20
 }
 
 variable "vpc_name" {

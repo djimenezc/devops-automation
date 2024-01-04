@@ -10,24 +10,24 @@ else
 	ELASTIC_COMPOSE_FILE = docker-compose.elk.multiple-node.yml
 endif
 
-podman-init:
-	-podman machine init -v ${HOME}:${HOME}
-	podman machine start
-	${MAKE} podman-networking-init
-	podman pull mysql:5.7 --platform linux/amd64
-	podman machine ssh sudo rpm-ostree install qemu-user-static
-	podman machine ssh sudo systemctl reboot
-
-podman-destroy:
-	podman system connection default podman-machine-default
-	podman machine stop
-	podman machine rm
-
-podman-run-mysql:
-	@if ! podman inspect mysql > /dev/null ;  then \
-        echo "podman run mysql-server"; \
-        podman run --detach --restart always --platform linux/amd64 --network=capi -p 3306:3306 --name mysql --env MYSQL_ALLOW_EMPTY_PASSWORD=true --volume resources:/etc/mysql/conf.d mysql:5.7; \
-    fi
+#podman-init:
+#	-podman machine init -v ${HOME}:${HOME}
+#	podman machine start
+#	${MAKE} podman-networking-init
+#	podman pull mysql:5.7 --platform linux/amd64
+#	podman machine ssh sudo rpm-ostree install qemu-user-static
+#	podman machine ssh sudo systemctl reboot
+#
+#podman-destroy:
+#	podman system connection default podman-machine-default
+#	podman machine stop
+#	podman machine rm
+#
+#podman-run-mysql:
+#	@if ! podman inspect mysql > /dev/null ;  then \
+#        echo "podman run mysql-server"; \
+#        podman run --detach --restart always --platform linux/amd64 --network=capi -p 3306:3306 --name mysql --env MYSQL_ALLOW_EMPTY_PASSWORD=true --volume resources:/etc/mysql/conf.d mysql:5.7; \
+#    fi
 
 #docker
 

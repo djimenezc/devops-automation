@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress
+  namespace: argocd-test
+  annotations:
+#    kubernetes.io/ingress.class: systeminternalingress
+spec:
+  ingressClassName: systeminternalingress
+  rules:
+    - host: echo2.argocd-test.vqpn.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: echo-echo-server
+                port:
+                  number: 80
+

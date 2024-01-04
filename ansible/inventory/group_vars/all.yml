@@ -21,6 +21,7 @@ security_scanner_dependencies_ubuntu:
   - qemu-user-static
   - qemu-system-arm
   - golang
+  - containernetworking-plugins
 
 security_scanner_dependencies_amazon_linux_2:
   - git
