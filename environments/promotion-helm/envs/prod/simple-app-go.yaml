@@ -12,7 +12,7 @@ spec:
       repoURL: ghcr.io/djimenezc
       helm:
         valueFiles:
-          - $values/environments/promotion-helm/envs/prod/simple-app-go-values.yaml
+          - $values/environments/promotion-helm/envs/prod/simple-app-go-settings.yaml
           - $values/environments/promotion-helm/envs/prod/simple-app-go-version.yaml
     - repoURL: 'https://github.com/djimenezc/devops-automation'
       ref: values

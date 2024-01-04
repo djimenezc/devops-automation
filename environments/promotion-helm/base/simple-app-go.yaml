@@ -22,7 +22,7 @@ spec:
       helm:
         releaseName: helm-simple-go-app
         valueFiles:
-          - $values/environments/promotion-helm/base/simple-app-go-values.yaml
+          - $values/environments/promotion-helm/base/simple-app-go-settings.yaml
           - $values/environments/promotion-helm/base/simple-app-go-version.yaml
     - repoURL: 'https://github.com/djimenezc/devops-automation'
       ref: values
