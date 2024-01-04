@@ -13,3 +13,6 @@ envs-port-forwarding:
 	kubectl port-forward svc/prod-simple-service -n prod 31002:8080 &
 	kubectl port-forward svc/staging-simple-service -n staging 31001:8080 &
 	kubectl port-forward svc/qa-simple-service -n qa 31000:8080 &
+
+kill-port-forwarding:
+	kill $(ps aux | grep "kubectl port-forward*" | awk '{print $2}')
