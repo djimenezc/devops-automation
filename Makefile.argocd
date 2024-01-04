@@ -1,6 +1,6 @@
 .PHONY: argocd-app-get
 
-ARGO_DEMO_APP_NAME ?= guestbook
+APP_NAME ?= guestbook
 ARGO_DEMO_APPS= guestbook ksonnet-guestbook helm-guestbook jsonnet-guestbook jsonnet-guestbook-tla kustomize-guestbook ksane pre-post-sync sync-waves helm-dependency sock-shop plugins blue-green apps
 
 APP_NAME ?= cronjob-operator
@@ -71,16 +71,16 @@ argocd-app-deploy:
   	--upsert
 
 argocd-app-get:
-	@echo Getting appName: $(ARGO_DEMO_APP_NAME)
-	argocd app get ${ARGO_DEMO_APP_NAME}
+	@echo Getting appName: $(APP_NAME)
+	argocd app get ${APP_NAME}
 
 argocd-app-sync:
-	@echo Syncing appName: $(ARGO_DEMO_APP_NAME)
-	argocd app sync ${ARGO_DEMO_APP_NAME}
+	@echo Syncing appName: $(APP_NAME)
+	argocd app sync ${APP_NAME}
 
 argocd-app-delete:
-	@echo Deleting appName: $(ARGO_DEMO_APP_NAME)
-	argocd app delete ${ARGO_DEMO_APP_NAME}
+	@echo Deleting appName: $(APP_NAME)
+	argocd app delete ${APP_NAME} -y
 
 sealed-secrets-controller-install:
 	helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets

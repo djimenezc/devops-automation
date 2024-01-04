@@ -18,7 +18,7 @@ spec:
       containers:
       - name: webserver-simple
         imagePullPolicy: Always
-        image: ghcr.io/djimenezc/devops-automation:1.0
+        image: ghcr.io/djimenezc/devops-automation/simple-app-go:1.0
         ports:
         - containerPort: 8080
         env:
