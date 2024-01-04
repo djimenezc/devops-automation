@@ -9,10 +9,7 @@ GITOPS_FOLDER ?= environments/promotion-helm
 create-apps:
 	$(MAKE) argocd-app-deploy APP_NAME=prod \
 	REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=$(GITOPS_FOLDER)/envs/prod DEST_NAMESPACE=prod
-	$(MAKE) argocd-app-deploy APP_NAME=qa \
-	REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=$(GITOPS_FOLDER)/envs/qa DEST_NAMESPACE=qa
-	$(MAKE) argocd-app-deploy APP_NAME=staging \
-	REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=$(GITOPS_FOLDER)/envs/staging DEST_NAMESPACE=staging
+
 
 .PHONY: delete-apps
 delete-apps:
