@@ -15,10 +15,10 @@ argocd-add-repo:
 	argocd repo add ghcr.io/djimenezc/helm --type helm --name stable --enable-oci --username djimenezc --password ${GITHUB_TOKEN}
 
 create-image-updater-secret:
-	kubectl create namespace argocd-image-updater || true
-	kubectl -n argocd-image-updater delete secret git-creds || true
+	kubectl create namespace argocd || true
+	kubectl -n argocd delete secret git-creds || true
 	@echo 'Create secret'
-	@kubectl -n argocd-image-updater create secret generic git-creds \
+	@kubectl -n argocd create secret generic git-creds \
 	--from-file=sshPrivateKey=$(SSH_KEY_FILE)
 
 apps-install:
