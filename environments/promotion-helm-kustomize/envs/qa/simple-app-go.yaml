@@ -8,7 +8,7 @@ metadata:
     argocd-image-updater.argoproj.io/psplusext.update-strategy: semver
     argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/git-creds
     argocd-image-updater.argoproj.io/write-back-target: "kustomization:/environments/promotion-helm-kustomize/envs/qa"
-    argocd-image-updater.argoproj.io/git-branch: :target
+    argocd-image-updater.argoproj.io/git-branch: feature/environment-promotion
 spec:
   destination:
     namespace: qa
