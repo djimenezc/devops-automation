@@ -10,3 +10,7 @@ patches:
 - path: simple-app-go.yaml
 #- path: simple-app-go-version.yaml
 #- path: simple-app-go-settings.yaml
+
+images:
+- name: ghcr.io/djimenezc/devops-automation/simple-app-go
+  newTag: 2.0.2
