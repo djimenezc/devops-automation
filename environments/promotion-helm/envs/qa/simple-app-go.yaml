@@ -11,6 +11,7 @@ metadata:
 spec:
   destination:
     namespace: qa
+    name: in-cluster
   project: default
   source:
     repoURL: git@github.com:djimenezc/devops-automation.git

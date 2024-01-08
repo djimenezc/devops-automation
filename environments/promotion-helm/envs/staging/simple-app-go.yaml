@@ -6,6 +6,7 @@ metadata:
 spec:
   destination:
     namespace: staging
+    name: in-cluster
   project: default
   sources:
     - chart: helm-simple-go-app
