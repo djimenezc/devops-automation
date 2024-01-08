@@ -2,17 +2,28 @@
 -include ../Makefile.argocd
 
 APP_BRANCH = feature/environment-promotion
-
-.PHONY: create-apps
-create-apps:
-	$(MAKE) argocd-app-deploy APP_NAME=prod REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=environments/envs/prod DEST_NAMESPACE=prod
-	$(MAKE) argocd-app-deploy APP_NAME=qa REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=environments/envs/qa DEST_NAMESPACE=qa
-	$(MAKE) argocd-app-deploy APP_NAME=staging REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=environments/envs/staging DEST_NAMESPACE=staging
-
-envs-port-forwarding:
-	kubectl port-forward svc/prod-simple-service -n prod 31002:8080 &
-	kubectl port-forward svc/staging-simple-service -n staging 31001:8080 &
-	kubectl port-forward svc/qa-simple-service -n qa 31000:8080 &
+REPO_URL = git@github.com:djimenezc/devops-automation.git
+SSH_KEY_FILE = /Users/david/.ssh/github_djimenez
 
 kill-port-forwarding:
 	./kill-port-forwarding-process.sh
+
+argocd-add-repo-creds:
+	argocd repo add $(REPO_URL) --ssh-private-key-path $(SSH_KEY_FILE)
+
+argocd-add-repo:
+	argocd repo add ghcr.io/djimenezc/helm --type helm --name stable --enable-oci --username djimenezc --password ${GITHUB_TOKEN}
+
+create-image-updater-secret:
+	kubectl create namespace argocd-image-updater || true
+	kubectl -n argocd-image-updater delete secret git-creds || true
+	@echo 'Create secret'
+	@kubectl -n argocd-image-updater create secret generic git-creds \
+	--from-file=sshPrivateKey=$(SSH_KEY_FILE)
+
+apps-install:
+	$(MAKE) argocd-app-deploy APP_NAME=apps \
+	REPO_URL=${REPO_URL} PATH=environments/apps DEST_NAMESPACE=argocd
+
+apps-delete:
+	$(MAKE) argocd-app-delete APP_NAME=prod

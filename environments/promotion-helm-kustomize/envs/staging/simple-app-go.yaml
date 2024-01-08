@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-app-go
+  namespace: argocd
+spec:
+  destination:
+    namespace: staging
+  sources:
+    - chart: helm-simple-go-app
+      targetRevision: 0.1.0
+      repoURL: ghcr.io/djimenezc
+      helm:
+        valueFiles:
+          - $values/environments/promotion-helm-kustomize/envs/staging/simple-app-go-settings.yaml
+          - $values/environments/promotion-helm-kustomize/envs/staging/simple-app-go-version.yaml
+    - repoURL: 'https://github.com/djimenezc/devops-automation'
+      ref: values
+      targetRevision: feature/environment-promotion
+

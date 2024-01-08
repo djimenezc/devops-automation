@@ -1,4 +1,4 @@
-name: Push Docker Image
+name: Push Docker Image Simple App Go
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -58,6 +58,8 @@ jobs:
         with:
           context: ./apps/simple-docker-server
           file: ./apps/simple-docker-server/Dockerfile
+          build-args: |
+            APP_VERSION=${{ inputs.docker_tag }}
           push: true
-          tags: ghcr.io/${{ steps.imagename.outputs.lowercase }}:${{ inputs.docker_tag }}
+          tags: ghcr.io/${{ steps.imagename.outputs.lowercase }}/simple-app-go:${{ inputs.docker_tag }}
 

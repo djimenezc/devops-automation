@@ -8,4 +8,4 @@ spec:
     spec:
       containers:
       - name: webserver-simple
-        image: ghcr.io/djimenezc/gitops-cert-level-2-examples:2.0
+        image: ghcr.io/djimenezc/devops-automation/simple-app-go:1.0
