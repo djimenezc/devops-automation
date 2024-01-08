@@ -13,6 +13,13 @@ spec:
     namespace: qa
     name: in-cluster
   project: default
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
   source:
     repoURL: git@github.com:djimenezc/devops-automation.git
     targetRevision: feature/environment-promotion
