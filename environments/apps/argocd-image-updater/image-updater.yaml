@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-image-updater
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    name: in-cluster
+  project: idp
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  sources:
+    - chart: argocd-image-updater
+      repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: ^0.12.2
+      helm:
+        releaseName: argocd-image-updater
+        values: |
+          config:
+            logLevel: debug
+            registries:
+              - name: ECR
+                api_url: https://ghcr.io/
+                prefix: https://ghcr.io/
+                ping: yes
+                insecure: no
+                default: true
+                credentials: ext:/scripts/ecr-login.sh
+                credsexpire: 10h
+          authScripts:
+            enabled: true
+            scripts:
+              ecr-login.sh: |
+                #!/bin/sh
+                echo $GITHUB_TOKEN
+          metrics:
+            enabled: true

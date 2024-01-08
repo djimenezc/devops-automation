@@ -20,3 +20,10 @@ create-image-updater-secret:
 	@echo 'Create secret'
 	@kubectl -n argocd-image-updater create secret generic git-creds \
 	--from-file=sshPrivateKey=$(SSH_KEY_FILE)
+
+apps-install:
+	$(MAKE) argocd-app-deploy APP_NAME=apps \
+	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/apss DEST_NAMESPACE=argocd
+
+apps-delete:
+	$(MAKE) argocd-app-delete APP_NAME=prod
