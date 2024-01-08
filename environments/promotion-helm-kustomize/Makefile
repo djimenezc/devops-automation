@@ -27,10 +27,12 @@ sync-apps:
 	$(MAKE) argocd-app-sync APP_NAME=staging
 
 envs-port-forwarding:
-	kubectl port-forward svc/prod-simple-service -n prod 31002:8080 &
-	kubectl port-forward svc/staging-simple-service -n staging 31001:8080 &
-	kubectl port-forward svc/qa-simple-service -n qa 31000:8080 &
+	kubectl port-forward svc/prod-simple-app-go-helm-simple-go-app -n prod 31002:8080 &
+	kubectl port-forward svc/staging-simple-app-go-helm-simple-go-app -n staging 31001:8080 &
+	kubectl port-forward svc/qa-simple-app-go-helm-simple-go-app -n qa 31000:8080 &
 
+kill-port-forwarding:
+	../kill-port-forwarding-process.sh
 
 kustomize:
 	kustomize build envs/prod --enable-helm

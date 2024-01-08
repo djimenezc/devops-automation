@@ -31,3 +31,5 @@ envs-port-forwarding:
 	kubectl port-forward svc/staging-simple-service -n staging 31001:8080 &
 	kubectl port-forward svc/qa-simple-service -n qa 31000:8080 &
 
+kill-port-forwarding:
+	../kill-port-forwarding-process.sh
