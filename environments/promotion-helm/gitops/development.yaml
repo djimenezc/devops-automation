@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: git@github.com:djimenezc/devops-automation.git
     targetRevision: feature/environment-promotion
-    path: envs/promotion-helm/app
+    path: environments/promotion-helm/app
     helm:
       valueFiles:
         - environments/development/values.yaml
