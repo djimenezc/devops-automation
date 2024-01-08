@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: simple-app-go
+  namespace: argocd
   annotations:
     argocd-image-updater.argoproj.io/image-list: simple-app-go=ghcr.io/djimenezc/devops-automation/simple-app-go
     argocd-image-updater.argoproj.io/psplusext.update-strategy: digest
