@@ -23,7 +23,7 @@ create-image-updater-secret:
 
 apps-install:
 	$(MAKE) argocd-app-deploy APP_NAME=apps \
-	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/apss DEST_NAMESPACE=argocd
+	REPO_URL=${REPO_URL} PATH=environments/apps DEST_NAMESPACE=argocd
 
 apps-delete:
 	$(MAKE) argocd-app-delete APP_NAME=prod
