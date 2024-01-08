@@ -8,6 +8,9 @@ spec:
     namespace: staging
     name: in-cluster
   project: default
+  source:
+    repoURL: git@github.com:djimenezc/devops-automation.git
+    targetRevision: feature/environment-promotion
   sources:
     - chart: helm-simple-go-app
       targetRevision: 0.1.0
