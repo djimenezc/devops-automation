@@ -8,11 +8,11 @@ GITOPS_FOLDER ?= environments/promotion-helm-kustomize
 .PHONY: create-apps
 create-apps:
 	$(MAKE) argocd-app-deploy APP_NAME=prod \
-	REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=$(GITOPS_FOLDER)/envs/prod DEST_NAMESPACE=prod
+	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/envs/prod DEST_NAMESPACE=prod
 	$(MAKE) argocd-app-deploy APP_NAME=qa \
-	REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=$(GITOPS_FOLDER)/envs/qa DEST_NAMESPACE=qa
+	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/envs/qa DEST_NAMESPACE=qa
 	$(MAKE) argocd-app-deploy APP_NAME=staging \
-	REPO_URL=https://github.com/djimenezc/devops-automation.git PATH=$(GITOPS_FOLDER)/envs/staging DEST_NAMESPACE=staging
+	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/envs/staging DEST_NAMESPACE=staging
 
 .PHONY: delete-apps
 delete-apps:
@@ -36,14 +36,3 @@ kill-port-forwarding:
 
 kustomize:
 	kustomize build envs/prod --enable-helm
-
-argocd-add-repo:
-	argocd repo add ghcr.io/djimenezc/helm --type helm --name stable --enable-oci --username djimenezc --password ${GITHUB_TOKEN}
-
-create-image-updater-secret:
-	kubectl create namespace argocd-image-updater || true
-	kubectl -n argocd-image-updater delete secret git-creds || true
-	@echo 'Create secret'
-	@kubectl -n argocd-image-updater create secret generic git-creds \
-	--from-literal=username=$(GIT_USERNAME) \
-	--from-literal=password=$(GIT_PASSWORD)
