@@ -4,9 +4,9 @@ metadata:
   name: simple-app-go
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: simple-app-go=ghcr.io/djimenezc/devops-automation/simple-app-go
-    argocd-image-updater.argoproj.io/psplusext.update-strategy: digest
-    argocd-image-updater.argoproj.io/psplusext.platforms: linux/amd64
+    argocd-image-updater.argoproj.io/image-list: simple-app-go=ghcr.io/djimenezc/devops-automation/simple-app-go:^2.0
+    argocd-image-updater.argoproj.io/psplusext.update-strategy: semver
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd-image-updater/git-creds
 spec:
   destination:
     namespace: qa
