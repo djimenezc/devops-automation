@@ -30,5 +30,5 @@ spec:
     helm:
       valueFiles:
         - envs/development/settings.yaml
-        - envs/development/version.yaml
+        - envs/development/.argocd-source-simple-app-go-development.yaml
 
