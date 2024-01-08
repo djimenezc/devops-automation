@@ -8,9 +8,13 @@ metadata:
     argocd-image-updater.argoproj.io/psplusext.update-strategy: semver
     argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/git-creds
     argocd-image-updater.argoproj.io/write-back-target: "kustomization:/environments/promotion-helm-kustomize/envs/qa"
+    argocd-image-updater.argoproj.io/git-branch: :target
 spec:
   destination:
     namespace: qa
+  source:
+    repoURL: git@github.com:djimenezc/devops-automation.git
+    targetRevision: feature/environment-promotion
   sources:
     - chart: helm-simple-go-app
       targetRevision: 0.1.0
