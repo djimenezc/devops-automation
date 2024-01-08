@@ -27,3 +27,15 @@ apps-install:
 
 apps-delete:
 	$(MAKE) argocd-app-delete APP_NAME=prod
+
+.PHONY: delete-apps
+delete-apps:
+	$(MAKE) argocd-app-delete APP_NAME=prod
+	$(MAKE) argocd-app-delete APP_NAME=qa
+	$(MAKE) argocd-app-delete APP_NAME=staging
+
+.PHONY: sync-apps
+sync-apps:
+	$(MAKE) argocd-app-sync APP_NAME=prod
+	$(MAKE) argocd-app-sync APP_NAME=qa
+	$(MAKE) argocd-app-sync APP_NAME=staging

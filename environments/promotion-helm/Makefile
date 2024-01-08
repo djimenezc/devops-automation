@@ -1,5 +1,5 @@
 
-GITOPS_FOLDER ?= environments/promotion-helm-kustomize
+GITOPS_FOLDER ?= environments/promotion-helm/gitops
 
 -include ../Makefile
 -include ../../Makefile.argocd
@@ -22,5 +22,3 @@ envs-port-forwarding:
 kill-port-forwarding:
 	../kill-port-forwarding-process.sh
 
-kustomize:
-	kustomize build envs/prod --enable-helm
