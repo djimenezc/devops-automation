@@ -7,6 +7,7 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: simple-app-go=ghcr.io/djimenezc/devops-automation/simple-app-go:^2.0
     argocd-image-updater.argoproj.io/psplusext.update-strategy: semver
     argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/git-creds
+    argocd-image-updater.argoproj.io/write-back-target: "/environments/promotion-helm/envs/qa"
     argocd-image-updater.argoproj.io/git-branch: feature/environment-promotion
 spec:
   destination:
