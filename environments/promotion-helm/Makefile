@@ -1,5 +1,5 @@
 
-GITOPS_FOLDER ?= environments/promotion-helm/gitops
+GITOPS_FOLDER ?= environments/promotion-helm
 
 -include ../Makefile
 -include ../../Makefile.argocd
