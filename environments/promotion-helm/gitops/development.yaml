@@ -8,9 +8,9 @@ metadata:
     argocd-image-updater.argoproj.io/simple-app-go.update-strategy: semver
     argocd-image-updater.argoproj.io/pull-secret: secret:argocd/git-creds
     argocd-image-updater.argoproj.io/write-back-method: git
-    argocd-image-updater.argoproj.io/write-back-target: "/environments/promotion-helm/envs/qa"
+    argocd-image-updater.argoproj.io/write-back-target: "/environments/promotion-helm/envs/development"
     argocd-image-updater.argoproj.io/git-branch: feature/environment-promotion
-    argocd-image-updater.argoproj.io/simple-app.helm.image-tag: simple-app.image.tag
+#    argocd-image-updater.argoproj.io/simple-app.helm.image-tag: simple-app.image.tag
 spec:
   destination:
     namespace: qa
@@ -26,15 +26,9 @@ spec:
   source:
     repoURL: git@github.com:djimenezc/devops-automation.git
     targetRevision: feature/environment-promotion
-  sources:
-    - chart: helm-simple-go-app
-      targetRevision: 0.1.0
-      repoURL: ghcr.io/djimenezc
-      helm:
-        valueFiles:
-          - $values/environments/promotion-helm/envs/qa/settings.yaml
-          - $values/environments/promotion-helm/envs/qa/version.yaml
-    - repoURL: 'https://github.com/djimenezc/devops-automation'
-      ref: values
-      targetRevision: feature/environment-promotion
+    path: environments/promotion-helm/app
+    helm:
+      valueFiles:
+        - environments/development/values.yaml
+        - environments/development/version.yaml
 

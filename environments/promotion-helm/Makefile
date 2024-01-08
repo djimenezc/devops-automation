@@ -7,8 +7,8 @@ GITOPS_FOLDER ?= environments/promotion-helm
 
 .PHONY: create-apps
 create-apps:
-	$(MAKE) argocd-app-deploy APP_NAME=qa \
-	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/envs/qa DEST_NAMESPACE=qa
+	$(MAKE) argocd-app-deploy APP_NAME=dev \
+	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/envs/gitops/development.yaml DEST_NAMESPACE=dev
 
 envs-port-forwarding:
 	kubectl port-forward svc/qa-simple-app-go-helm-simple-go-app -n qa 31000:8080 &
