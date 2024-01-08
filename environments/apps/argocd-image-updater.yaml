@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: argocd
     name: in-cluster
-  project: idp
+  project: default
   syncPolicy:
     automated:
       prune: true
