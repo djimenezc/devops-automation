@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: simple-app-go-staging
+  name: simple-app-go-prod
   namespace: argocd
 spec:
   destination:
-    namespace: staging
+    namespace: prod
     name: in-cluster
   project: default
   syncPolicy:
@@ -21,7 +21,7 @@ spec:
     path: environments/promotion-helm/app
     helm:
       valueFiles:
-        - envs/staging/settings.yaml
-        - envs/staging/version.yaml
-        - envs/staging/values-env.yaml
+        - envs/prod/settings.yaml
+        - envs/prod/version.yaml
+        - envs/prod/values-env.yaml
 

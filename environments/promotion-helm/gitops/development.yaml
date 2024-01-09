@@ -14,7 +14,7 @@ metadata:
 #    argocd-image-updater.argoproj.io/simple-app.helm.image-tag: simple-app.image.tag
 spec:
   destination:
-    namespace: qa
+    namespace: dev
     name: in-cluster
   project: default
   syncPolicy:
@@ -30,6 +30,7 @@ spec:
     path: environments/promotion-helm/app
     helm:
       valueFiles:
-        - envs/development/settings.yaml
-        - envs/development/version.yaml
+        - envs/dev/settings.yaml
+        - envs/dev/version.yaml
+        - envs/dev/values-env.yaml
 
