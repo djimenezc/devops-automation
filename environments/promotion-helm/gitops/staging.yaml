@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-app-go-staging
+  namespace: argocd
+spec:
+  destination:
+    namespace: staging
+    name: in-cluster
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    repoURL: git@github.com:djimenezc/devops-automation.git
+    targetRevision: feature/environment-promotion
+    path: environments/promotion-helm/app
+    helm:
+      valueFiles:
+        - envs/staging/settings.yaml
+        - envs/staging/version.yaml
+
