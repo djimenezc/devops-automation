@@ -34,5 +34,5 @@ jobs:
 
           # push the change to the new branch
           git add environments/promotion-helm/app/staging/version.yaml
-          git commit -m "Promote development to staging"
+          git commit -m "Promote development to staging version ${version}"
           git push -u origin ${{ steps.extract_branch.outputs.branch }}
