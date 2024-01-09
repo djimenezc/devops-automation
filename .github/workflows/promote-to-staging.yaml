@@ -30,9 +30,9 @@ jobs:
           cat environments/promotion-helm/app/envs/staging/values-version.yaml
 
           # promote the change
-          version="${version}" yq -i e ".image.tag = strenv(version)" ./environments/promotion-helm/app/envs/staging/values-version.yaml
+          version="${version}" yq -i e ".image.tag = strenv(version)" environments/promotion-helm/app/envs/staging/values-version.yaml
 
           # push the change to the new branch
-          git add environments/promotion-helm/app/staging/version.yaml
+          git add environments/promotion-helm/app/envs/staging/values-version.yaml
           git commit -m "Promote development to staging version ${version}"
           git push -u origin ${{ steps.extract_branch.outputs.branch }}
