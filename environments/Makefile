@@ -39,3 +39,6 @@ sync-apps:
 	$(MAKE) argocd-app-sync APP_NAME=prod
 	$(MAKE) argocd-app-sync APP_NAME=qa
 	$(MAKE) argocd-app-sync APP_NAME=staging
+
+refresh-all:
+	argocd app list -o name | xargs -I {} argocd app get --refresh {}

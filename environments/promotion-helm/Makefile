@@ -10,9 +10,13 @@ create-apps:
 	$(MAKE) argocd-app-deploy APP_NAME=dev \
 	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/gitops DEST_NAMESPACE=dev
 
-envs-port-forwarding:
-	kubectl port-forward svc/qa-simple-app-go-helm-simple-go-app -n qa 31000:8080 &
+.PHONY: delete-apps
+delete-apps:
+	$(MAKE) argocd-app-delete APP_NAME=dev
 
-kill-port-forwarding:
-	../kill-port-forwarding-process.sh
+.PHONY: sync-apps
+sync-apps:
+	$(MAKE) argocd-app-sync APP_NAME=simple-app-go-prod
+	$(MAKE) argocd-app-sync APP_NAME=simple-app-go-development
+	$(MAKE) argocd-app-sync APP_NAME=simple-app-go-staging
 
