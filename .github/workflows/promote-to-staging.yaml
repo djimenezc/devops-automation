@@ -13,23 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - run: |
           # configure git client
-          git config --global user.email "<email address>"
-          git config --global user.name "<name>"
+          git config --global user.email "djimenez@savispain.es"
+          git config --global user.name "Github promoter"
+
+          version = $(cat environments/promotion-helm/app/.argocd-source-simple-app-go-development.yaml | \
+                      yq '.helm.parameters[] | select (.name == "image.tag").value)
+          echo "version to promote ${version}
 
           # promote the change
-          cp app/environments/development/version.yaml app/environments/staging/version.yaml
-
-          # push the change to the new branch
-          git add app/environments/staging/version.yaml
-          git commit -m "Promote development to staging"
-          git push -u origin staging/${{ github.sha }}
-      - run: |
-          gh pr create \
-            -B main \
-            -H staging/${{ github.sha }} \
-            --title "Promote development to staging" \
-            --body "Automatically created by GitHub Actions"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          cp environments/promotion-helm/app/dev/version.yaml environments/promotion-helm/app/staging/version.yaml
+#
+#          # push the change to the new branch
+#          git add environments/promotion-helm/app/staging/version.yaml
+#          git commit -m "Promote development to staging"
+#          git push -u origin ${{ steps.extract_branch.outputs.branch }}
