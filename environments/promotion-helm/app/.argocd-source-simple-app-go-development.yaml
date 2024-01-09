@@ -3,6 +3,6 @@ helm:
   - name: image.name
     value: ghcr.io/djimenezc/devops-automation/simple-app-go
     forcestring: true
-  - name: deployment.image.tag
+  - name: image.tag
     value: 2.0.5
     forcestring: true
