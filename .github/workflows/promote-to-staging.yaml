@@ -22,8 +22,9 @@ jobs:
           git config --global user.email "djimenez@savispain.es"
           git config --global user.name "Github promoter"
 
+          echo "Extracting version from argocd-image-updater file"
           version=$(cat environments/promotion-helm/app/.argocd-source-simple-app-go-development.yaml | yq '.helm.parameters[] | select (.name == "image.tag").value' | xargs)
-          echo "version to promote ${version}
+          echo "version to promote ${version}"
 
           # promote the change
 #          cp environments/promotion-helm/app/dev/version.yaml environments/promotion-helm/app/staging/version.yaml
