@@ -1,0 +1,35 @@
+# .github/workflows/promote-to-staging.yaml
+name: Promote to staging
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          # configure git client
+          git config --global user.email "<email address>"
+          git config --global user.name "<name>"
+
+          # promote the change
+          cp app/environments/development/version.yaml app/environments/staging/version.yaml
+
+          # push the change to the new branch
+          git add app/environments/staging/version.yaml
+          git commit -m "Promote development to staging"
+          git push -u origin staging/${{ github.sha }}
+      - run: |
+          gh pr create \
+            -B main \
+            -H staging/${{ github.sha }} \
+            --title "Promote development to staging" \
+            --body "Automatically created by GitHub Actions"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

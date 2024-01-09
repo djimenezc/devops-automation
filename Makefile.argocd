@@ -91,3 +91,8 @@ sealed-secrets-controller-install:
 	helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
 	helm repo update
 	helm install sealed-secrets-controller sealed-secrets/sealed-secrets
+
+argo-workflow-install:
+	-kubectl create namespace argo
+	kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.5.2/quick-start-minimal.yaml
+	kubectl apply -f ./ingress/argo-workflow-nginx-ingress.yml
