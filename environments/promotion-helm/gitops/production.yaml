@@ -21,7 +21,7 @@ spec:
     path: environments/promotion-helm/app
     helm:
       valueFiles:
-        - envs/prod/settings.yaml
-        - envs/prod/version.yaml
+        - envs/prod/values-settings.yaml
+        - envs/prod/values-version.yaml
         - envs/prod/values-env.yaml
 
