@@ -19,17 +19,17 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
           # configure git client
-          git config --global user.email "<email address>"
-          git config --global user.name "<name>"
+          git config --global user.email "djimenez@savispain.es"
+          git config --global user.name "Github promoter"
 
           # create a new branch
           git switch -c production/${{ github.sha }}
 
           # promote the change
-          cp app/environments/staging/version.yaml app/environments/production/version.yaml
+          cp environments/promotion-helm/app/envs/staging/values-version.yaml environments/promotion-helm/app/envs/prod/values-version.yaml
 
           # push the change to the new branch
-          git add app/environments/production/version.yaml
+          git add environments/promotion-helm/app/envs/prod/values-version.yaml
           git commit -m "Promote staging to production"
           git push -u origin production/${{ github.sha }}
       - run: |
