@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-app-go-development
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: simple-app-go=ghcr.io/djimenezc/devops-automation/simple-app-go:^2.0
+    argocd-image-updater.argoproj.io/simple-app-go.update-strategy: semver
+    argocd-image-updater.argoproj.io/pull-secret: secret:argocd/git-creds
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: "/environments/promotion-helm/app/envs/development"
+    argocd-image-updater.argoproj.io/git-branch: feature/environment-promotion
+    argocd-image-updater.argoproj.io/simple-app-go.helm.image-tag: image.tag
+#    argocd-image-updater.argoproj.io/simple-app.helm.image-tag: simple-app.image.tag
+spec:
+  destination:
+    namespace: dev
+    name: in-cluster
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    repoURL: git@github.com:djimenezc/devops-automation.git
+    targetRevision: feature/environment-promotion
+    path: environments/promotion-helm/app
+    helm:
+      valueFiles:
+        - envs/dev/values-settings.yaml
+        - envs/dev/values-version.yaml
+        - envs/dev/values-env.yaml
+
