@@ -4,5 +4,5 @@ helm:
     value: ghcr.io/djimenezc/devops-automation/simple-app-go
     forcestring: true
   - name: deployment.image.tag
-    value: 2.0.4
+    value: 2.0.5
     forcestring: true
