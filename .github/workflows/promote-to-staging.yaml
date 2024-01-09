@@ -27,6 +27,8 @@ jobs:
           version=$(cat environments/promotion-helm/app/.argocd-source-simple-app-go-development.yaml | yq '.helm.parameters[] | select (.name == "image.tag").value' | xargs)
           echo "version to promote ${version}"
 
+          cat environments/promotion-helm/app/envs/staging/values-version.yaml
+
           # promote the change
           version="${version}" yq -i e ".image.tag = strenv(version)" environments/promotion-helm/app/envs/staging/values-version.yaml
 
