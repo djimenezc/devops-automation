@@ -1,0 +1,4 @@
+deployment:
+  image:
+    name: "ghcr.io/djimenezc/devops-automation/simple-app-go"
+    tag: "2.0.1"
