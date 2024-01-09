@@ -3,7 +3,7 @@ ingress:
   className: nginx
 
   hosts:
-    - host: simple-app-prod
+    - host: simple-app-prod.127.0.0.1.nip.io
       paths:
         - path: /
           pathType: ImplementationSpecific
