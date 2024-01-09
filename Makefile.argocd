@@ -96,3 +96,8 @@ argo-workflow-install:
 	-kubectl create namespace argo
 	kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.5.2/quick-start-minimal.yaml
 	kubectl apply -f ./ingress/argo-workflow-nginx-ingress.yml
+
+argo-workflow-delete:
+	#kubectl delete -f ./ingress/argo-workflow-nginx-ingress.yml
+	kubectl delete -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.5.2/quick-start-minimal.yaml
+	-kubectl delete namespace argo

@@ -17,7 +17,7 @@ spec:
       - CreateNamespace=true
   source:
     repoURL: git@github.com:djimenezc/devops-automation.git
-    targetRevision: feature/environment-promotion
+    targetRevision: 3f5921edf463fe1153cda322d062fdbe97266815
     path: environments/promotion-helm/app
     helm:
       valueFiles:

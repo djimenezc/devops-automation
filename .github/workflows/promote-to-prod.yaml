@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - run: |
           # configure git client
           git config --global user.email "djimenez@savispain.es"
@@ -21,16 +25,23 @@ jobs:
           # create a new branch
           git switch -c production/${{ github.sha }}
 
+          echo "Extracting version from argocd-image-updater file"
+          cat environments/promotion-helm/gitops/staging.yaml
+          version=$(cat environments/promotion-helm/gitops/staging.yaml | yq '.spec.source.targetRevision' | xargs)
+
           # promote the change
           cp environments/promotion-helm/app/envs/staging/values-version.yaml environments/promotion-helm/app/envs/prod/values-version.yaml
+          # promote chart version
+          version="${{ github.sha }}" yq -i e ".spec.source.targetRevision = strenv(version)" environments/promotion-helm/gitops/prod.yaml
 
           # push the change to the new branch
           git add environments/promotion-helm/app/envs/prod/values-version.yaml
+          git add environments/promotion-helm/gitops/prod.yaml
           git commit -m "Promote staging to production"
           git push -u origin production/${{ github.sha }}
       - run: |
           gh pr create \
-            -B main \
+            -B ${{ steps.extract_branch.outputs.branch }} \
             -H production/${{ github.sha }} \
             --title "Promote staging to production" \
             --body "Automatically created by GHA"

@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-app-go-{{ .Values.environment }}-2
+  namespace: argocd
+spec:
+  destination:
+    namespace: {{ .Values.environment }}
+    name: in-cluster
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  project: default
+  sources:
+    - chart: helm-simple-go-app
+      targetRevision: 0.1.0
+      repoURL: ghcr.io/djimenezc
+      helm:
+        releaseName: helm-simple-go-app
+        valueFiles:
+          - $values/environments/promotion-helm/app/envs/dev/values-settings.yaml
+        values: |
+          ingress:
+            className: nginx
+            enabled: true
+            hosts:
+              - host: simple-app-{{.Values.environment }}2.127.0.0.1.nip.io
+                paths:
+                  - path: /
+                    pathType: ImplementationSpecific
+          image:
+            tag: {{ .Values.image.tag }}
+    - repoURL: 'https://github.com/djimenezc/devops-automation'
+      ref: values
+      targetRevision: feature/environment-promotion
