@@ -22,27 +22,29 @@ jobs:
           git config --global user.email "djimenez@savispain.es"
           git config --global user.name "Github promoter"
 
-          # create a new branch
-          git switch -c production/${{ github.sha }}
-
-          echo "Extracting version from argocd-image-updater file"
+          echo "Extracting version from staging file"
           cat environments/promotion-helm/gitops/staging.yaml
           version=$(cat environments/promotion-helm/gitops/staging.yaml | yq '.spec.source.targetRevision' | xargs)
 
+          # create a new branch
+          git switch -c production/${version}
+
+          echo "Helm version to promote ${version}"
           # promote the change
           cp environments/promotion-helm/app/envs/staging/values-version.yaml environments/promotion-helm/app/envs/prod/values-version.yaml
           # promote chart version
-          version="${{ github.sha }}" yq -i e ".spec.source.targetRevision = strenv(version)" environments/promotion-helm/gitops/prod.yaml
+          version="${version}" yq -i e ".spec.source.targetRevision = strenv(version)" environments/promotion-helm/gitops/production.yaml
 
           # push the change to the new branch
           git add environments/promotion-helm/app/envs/prod/values-version.yaml
-          git add environments/promotion-helm/gitops/prod.yaml
+          git add environments/promotion-helm/gitops/production.yaml
           git commit -m "Promote staging to production"
-          git push -u origin production/${{ github.sha }}
-      - run: |
+
+          git push -u origin production/${version}
+
           gh pr create \
             -B ${{ steps.extract_branch.outputs.branch }} \
-            -H production/${{ github.sha }} \
+            -H production/${version} \
             --title "Promote staging to production" \
             --body "Automatically created by GHA"
         env:
