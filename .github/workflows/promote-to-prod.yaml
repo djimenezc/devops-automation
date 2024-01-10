@@ -22,28 +22,47 @@ jobs:
           git config --global user.email "djimenez@savispain.es"
           git config --global user.name "Github promoter"
 
+          increment_version() {
+            local delimiter=.
+            local array=($(echo "$1" | tr $delimiter '\n'))
+            array[$2]=$((array[$2]+1))
+            if [ $2 -lt 2 ]; then array[2]=0; fi
+            if [ $2 -lt 1 ]; then array[1]=0; fi
+            echo $(local IFS=$delimiter ; echo "${array[*]}")
+          }
+
+          echo "Extracting helm version"
+          currentHelmVersion=$(cat environments/promotion-helm/app/Chart.yaml | yq ".version")
+          nextHelmVersion=$(increment_version ${currentHelmVersion} 1)
+
+          version="helm/v${currentHelmVersion}" yq -i e ".spec.source.targetRevision = strenv(version)" environments/promotion-helm/gitops/production.yaml
+          version="${nextHelmVersion}" yq -i e ".version = strenv(version)" environments/promotion-helm/app/Chart.yaml
+
           # create a new branch
-          git switch -c production/${{ github.sha }}
+          git switch -c production/${currentHelmVersion}
 
-          echo "Extracting version from argocd-image-updater file"
-          cat environments/promotion-helm/gitops/staging.yaml
-          version=$(cat environments/promotion-helm/gitops/staging.yaml | yq '.spec.source.targetRevision' | xargs)
-
+          echo "Helm version to promote ${currentHelmVersion}"
           # promote the change
           cp environments/promotion-helm/app/envs/staging/values-version.yaml environments/promotion-helm/app/envs/prod/values-version.yaml
           # promote chart version
-          version="${{ github.sha }}" yq -i e ".spec.source.targetRevision = strenv(version)" environments/promotion-helm/gitops/prod.yaml
+          version="helm/v${currentHelmVersion}" yq -i e ".spec.source.targetRevision = strenv(version)" environments/promotion-helm/gitops/production.yaml
 
           # push the change to the new branch
           git add environments/promotion-helm/app/envs/prod/values-version.yaml
-          git add environments/promotion-helm/gitops/prod.yaml
+          git add environments/promotion-helm/gitops/production.yaml
+          git add environments/promotion-helm/app/Chart.yaml
+
+          echo "Promote staging to dev version ${version} helm ${currentHelmVersion}"
           git commit -m "Promote staging to production"
-          git push -u origin production/${{ github.sha }}
-      - run: |
+          git tag -a helm/v${currentHelmVersion} -m "App helm version ${currentHelmVersion}"
+
+          git push -u origin production/${currentHelmVersion}
+          git push --tags
+
           gh pr create \
             -B ${{ steps.extract_branch.outputs.branch }} \
-            -H production/${{ github.sha }} \
-            --title "Promote staging to production" \
+            -H production/${currentHelmVersion} \
+            --title "Promote staging to production: helm ${currentHelmVersion}" \
             --body "Automatically created by GHA"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

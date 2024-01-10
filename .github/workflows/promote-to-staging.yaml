@@ -45,8 +45,8 @@ jobs:
           git add environments/promotion-helm/gitops/staging.yaml
           git add environments/promotion-helm/app/Chart.yaml
 
-          echo "Promote development to staging version ${version} helm ${nextHelmVersion}"
-          git commit -m "Promote development to staging version ${version} helm ${nextHelmVersion}"
+          echo "Promote development to staging version ${version} helm ${currentHelmVersion}"
+          git commit -m "Promote development to staging version ${version} helm ${currentHelmVersion}"
           git tag -a helm/v${currentHelmVersion} -m "App helm version ${currentHelmVersion}"
 
           git push -u origin ${{ steps.extract_branch.outputs.branch }}
