@@ -26,4 +26,4 @@ spec:
           - $values/environments/promotion-helm/base/simple-app-go-version.yaml
     - repoURL: 'https://github.com/djimenezc/devops-automation'
       ref: values
-      targetRevision: feature/environment-promotion
+      targetRevision: main

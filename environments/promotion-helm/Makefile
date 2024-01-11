@@ -1,5 +1,5 @@
 
-GITOPS_FOLDER ?= environments/promotion-helm
+GITOPS_FOLDER ?= main
 APP_NAME ?= environments
 
 -include ../Makefile
