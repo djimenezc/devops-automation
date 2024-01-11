@@ -25,16 +25,29 @@ jobs:
           echo "Extracting version from argocd-image-updater file"
           cat environments/promotion-helm/app/.argocd-source-simple-app-go-development.yaml
           version=$(cat environments/promotion-helm/app/.argocd-source-simple-app-go-development.yaml | yq '.helm.parameters[] | select (.name == "image.tag").value' | xargs)
-          echo "version to promote ${version}"
-
-          cat environments/promotion-helm/app/envs/staging/values-version.yaml
 
           # promote the change
+          echo "app version to promote ${version}"
           version="${version}" yq -i e ".image.tag = strenv(version)" environments/promotion-helm/app/envs/staging/values-version.yaml
+
+          # promote chart version
+          currentHelmVersion=$(cat environments/promotion-helm/app/Chart.yaml | yq ".version")
+          nextHelmVersion=$(echo ${currentHelmVersion} | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$(NF-1)++; $NF=sprintf("%0*d", length($NF), ($NF+1)%(10^length($NF))); print}')
+          echo "Next helm version to promote ${nextHelmVersion}"
+
+          version="helm/v${currentHelmVersion}" yq -i e ".spec.source.targetRevision = strenv(version)" environments/promotion-helm/gitops/staging.yaml
+          version="${nextHelmVersion}" yq -i e ".version = strenv(version)" environments/promotion-helm/app/Chart.yaml
 
           git diff
 
           # push the change to the new branch
           git add environments/promotion-helm/app/envs/staging/values-version.yaml
-          git commit -m "Promote development to staging version ${version}" || true
+          git add environments/promotion-helm/gitops/staging.yaml
+          git add environments/promotion-helm/app/Chart.yaml
+
+          echo "Promote development to staging version ${version} helm ${currentHelmVersion}"
+          git commit -m "Promote development to staging version ${version} helm ${currentHelmVersion}"
+          git tag -a helm/v${currentHelmVersion} -m "App helm version ${currentHelmVersion}"
+
           git push -u origin ${{ steps.extract_branch.outputs.branch }}
+          git push --tags

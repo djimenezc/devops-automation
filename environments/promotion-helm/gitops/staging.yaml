@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: simple-app-go-staging
+  name: staging
   namespace: argocd
 spec:
   destination:
@@ -17,11 +17,10 @@ spec:
       - CreateNamespace=true
   source:
     repoURL: git@github.com:djimenezc/devops-automation.git
-    targetRevision: feature/environment-promotion
+    targetRevision: helm/v0.2.0
     path: environments/promotion-helm/app
     helm:
       valueFiles:
         - envs/staging/values-settings.yaml
         - envs/staging/values-version.yaml
         - envs/staging/values-env.yaml
-

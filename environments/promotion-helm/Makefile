@@ -1,5 +1,6 @@
 
-GITOPS_FOLDER ?= environments/promotion-helm
+GITOPS_FOLDER ?= main
+APP_NAME ?= environments
 
 -include ../Makefile
 -include ../../Makefile.argocd
@@ -7,12 +8,12 @@ GITOPS_FOLDER ?= environments/promotion-helm
 
 .PHONY: create-apps
 create-apps:
-	$(MAKE) argocd-app-deploy APP_NAME=dev \
-	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/gitops DEST_NAMESPACE=dev
+	$(MAKE) argocd-app-deploy APP_NAME=$(APP_NAME) \
+	REPO_URL=${REPO_URL} PATH=$(GITOPS_FOLDER)/gitops DEST_NAMESPACE=argocd
 
 .PHONY: delete-apps
 delete-apps:
-	$(MAKE) argocd-app-delete APP_NAME=dev
+	$(MAKE) argocd-app-delete APP_NAME=$(APP_NAME)
 
 .PHONY: sync-apps
 sync-apps:
