@@ -1,6 +1,6 @@
 
 GITOPS_FOLDER ?= environments/promotion-helm
-APP_NAME ?= dev
+APP_NAME ?= environments
 
 -include ../Makefile
 -include ../../Makefile.argocd
