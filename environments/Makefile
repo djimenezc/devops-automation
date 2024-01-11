@@ -1,7 +1,7 @@
 
 -include ../Makefile.argocd
 
-APP_BRANCH = feature/environment-promotion
+APP_BRANCH = main
 REPO_URL = git@github.com:djimenezc/devops-automation.git
 SSH_KEY_FILE = /Users/david/.ssh/github_djimenez
 

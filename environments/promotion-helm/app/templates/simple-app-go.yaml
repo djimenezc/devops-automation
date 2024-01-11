@@ -36,4 +36,4 @@ spec:
             tag: {{ .Values.image.tag }}
     - repoURL: 'https://github.com/djimenezc/devops-automation'
       ref: values
-      targetRevision: feature/environment-promotion
+      targetRevision: main
