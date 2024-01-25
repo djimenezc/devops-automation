@@ -24,7 +24,7 @@ jobs:
 
           echo "Extracting version from argocd-image-updater file"
           cat environments/promotion-helm/app/.argocd-source-simple-app-go-development.yaml
-          version=$(cat environments/promotion-helm/app/.argocd-source-simple-app-go-development.yaml | yq '.helm.parameters[] | select (.name == "image.tag").value' | xargs)
+          version=$(cat environments/promotion-helm/app/.argocd-source-development.yaml | yq '.helm.parameters[] | select (.name == "image.tag").value' | xargs)
 
           # promote the change
           echo "app version to promote ${version}"
