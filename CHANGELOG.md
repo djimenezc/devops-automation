@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/djimenezc/devops-automation/compare/v1.5.0...v1.6.0) (2024-07-07)
+
+
+### Features
+
+* initial commit ([f909a53](https://github.com/djimenezc/devops-automation/commit/f909a53029f7e01503bf36b5bd358d160920e783))
+
 # [1.5.0](https://github.com/djimenezc/devops-automation/compare/v1.4.9...v1.5.0) (2024-01-04)
 
 
