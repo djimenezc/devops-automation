@@ -18,7 +18,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-markdownlint": "^0.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3",
+    "husky": "^9.0.11",
     "imagemin-lint-staged": "^0.5.1",
     "lint-staged": "^15.2.0",
     "markdownlint-cli": "^0.38.0",
